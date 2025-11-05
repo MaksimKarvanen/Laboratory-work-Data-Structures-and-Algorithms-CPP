@@ -28,7 +28,7 @@ for row in rows:
             if i == 1 or i == 2 or i == 3 or i == 7:
                 file.write(row_data[i])
                 file.write(' ')
-        file.write('\n')
+        #file.write('\n')
 
 print(row_data)
 

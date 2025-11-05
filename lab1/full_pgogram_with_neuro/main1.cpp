@@ -191,6 +191,34 @@ void shellSort(std::vector<T>& arr) {
     }
 }
 
+template <typename T>
+void heapify(std::vector<T>& arr, int n, int i) {
+    int largest = i;
+    int l = 2 * i + 1;
+    int r = 2 * i + 2;
+    if (l < n && arr[l] > arr[largest]) {
+        largest = l;
+    }
+    if (r < n && arr[r] > arr[largest]) {
+        largest = r;
+    }
+    if (largest != i) {
+        swap(arr[i], arr[largest]);
+        heapify(arr, n, largest);
+    }
+}
+
+template <typename T>
+void heapSort(std::vector<T>& arr) {
+    int n = arr.size();
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        heapify(arr, n, i);
+    }
+    for (int i = n - 1; i > 0; i--) {
+        swap(arr[0], arr[i]);
+        heapify(arr, i, 0);
+    }
+}
 
 void radixSortLSD(std::vector<int>& arr) {
     int n = arr.size();
@@ -348,6 +376,15 @@ void Array<T>::selectAlgorithm(int choice) {
         std::cout << "Время выполнения: " << elapsed.count() << " мс" << std::endl;
         break;
     }
+    case 10: {
+        std::cout << "Выбран Heap Sort" << std::endl;
+        auto start = std::chrono::high_resolution_clock::now();
+        heapSort(arr);
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> elapsed = end - start;
+        std::cout << "Время выполнения: " << elapsed.count() << " мс" << std::endl;
+        break;
+    }
     default:
         std::cout << "Неверный выбор алгоритма!" << std::endl;
         return;
@@ -399,6 +436,7 @@ void showMenu() {
     std::cout << "7. Shell Sort" << std::endl;
     std::cout << "8. Radix Sort LSD" << std::endl;
     std::cout << "9. Lexicographic Sort" << std::endl;
+    std::cout << "10. Heap Sort" << std::endl;
     std::cout << "0. Выход" << std::endl;
     std::cout << "Выберите алгоритм сортировки: ";
 }
@@ -562,8 +600,8 @@ int main() {
 
         array_var->selectAlgorithm(algorithmChoice);
 
-        std::cout << "Отсортированный массив: ";
-        array_var->display();
+        // std::cout << "Отсортированный массив: ";
+        // array_var->display();
 
         std::cout << "\nНажмите Enter для продолжения...";
         std::cin.ignore();
